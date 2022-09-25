@@ -21,30 +21,43 @@ file_name_for_json = 'data_json.json'
 
 class SerializationInterface:
 
-    def serialization_json(self):
+    def serialization(self):
         pass
 
-    def serialization_bin(self):
+    def deserialization(self):
         pass
 
 class SerializationJson(SerializationInterface):
 
-    def serialization_json(self):
+    def serialization(self):
         with open(file_name_for_json, "w") as fh:
             json.dump(some_data_for_json, fh)
-        print("Calling func serialization_json")
+        print("Calling func serialization type file json")
+
+    def deserialization(self):
+        with open(file_name_for_json, "r") as fh:
+            self.unpacked = json.load(fh)
+        print("Calling func deserialization type file json")
+        return self.unpacked
 
 class SerializationBin(SerializationInterface):
 
-    def serialization_bin(self):
+    def serialization(self):
         with open(file_name_for_bin, "wb") as fh:
             pickle.dump(some_data_for_bin, fh)
-        print("Calling func serialization_bin")
+        print("Calling func serialization type file bin")
+
+    def deserialization(self):
+        with open(file_name_for_bin, "rb") as fh:
+            self.unpacked = pickle.load(fh)
+        print("Calling func deserialization type file bin")
+        return self.unpacked
 
 
 a = SerializationJson()
 b = SerializationBin()
 
-a.serialization_json()
-b.serialization_bin()
-
+a.serialization()
+b.serialization()
+print(a.deserialization())
+print(b.deserialization())
